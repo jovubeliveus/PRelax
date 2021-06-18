@@ -1,0 +1,89 @@
+# sample makefile for the C PPTemplate
+# j. behrens 3/99
+
+CC = cc
+#
+# THIS OPTION IS FOR THE DATA PARALLEL VERSION (-mp)
+CCFLAGS = -O3 -mp -DGETRUS
+# CCFLAGS = -O3 -DGETRUS
+# CCFLAGS = -O3
+# CCFLAGS = -g -DDEBUG
+SRCSER= ../src_serial/
+SRCMPI= ../src_mpi/
+SRCDAT= ../src_datapar/
+LIBS= 
+MPILIBS= -lmpi
+DATLIBS= -lmp -lm
+
+OBJECTS = \
+driver.o \
+init.o \
+matlab_out.o \
+print_result.o \
+resid.o \
+ticktock.o \
+utils.o \
+work.o
+
+MPIOBJECTS = \
+driver.o \
+init.o \
+matlab_out.o \
+print_result.o \
+resid.o \
+utils.o \
+work.o
+
+
+# default make
+
+all::
+	@make copy
+	@make main
+	@make clear
+
+mpi::
+	@make copympi
+	@make mainmpi
+	@make clear
+
+datapar::
+	@make copydatapar
+	@make maindatapar
+	@make clear
+
+# copy source files
+
+copy::
+	@cp ${SRCSER}*.c .
+	@cp ${SRCSER}*.h .
+
+copympi::
+	@cp ${SRCMPI}*.c .
+	@cp ${SRCMPI}*.h .
+
+copydatapar::
+	@cp ${SRCDAT}*.c .
+	@cp ${SRCDAT}*.h .
+
+# make object files
+
+.c.o:
+	${CC} ${CCFLAGS} -c $<
+
+# make target (executable)
+
+main: ${OBJECTS}
+	${CC} ${CCFLAGS} -o $@ ${OBJECTS} ${LIBS}
+
+mainmpi: ${MPIOBJECTS}
+	${CC} ${CCFLAGS} -o $@ ${MPIOBJECTS} ${LIBS} ${MPILIBS}
+
+maindatapar: ${OBJECTS}
+	${CC} ${CCFLAGS} -o $@ ${OBJECTS} ${LIBS} ${DATLIBS}
+
+clear::
+	@rm *.o
+
+tidy::
+	@rm -f *.dat *.c *.h core *.m main mainmpi maindatapar

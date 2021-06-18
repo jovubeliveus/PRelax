@@ -1,0 +1,29 @@
+######################################################################
+#                                                                    #
+#   PRelax Directory README                                          #
+#   j. behrens (3/99)                                                #
+#                                                                    #
+######################################################################
+
+
+######################################################################
+# This directory contains the following subdirectories and files:    #
+######################################################################
+
+Make.smpl	- Sample Makefile
+README		- this file
+driver.c	- C source code for the main program
+global.h	- include file for common variables
+init.c		- C source code for the initialization of arrays
+matlab_out.c	- C source code for the MATLAB compatible output
+print_result.c	- C source code for the nice results
+resid.c		- C source code for the calculation of the residual
+ticktock.c	- C source code for the timing routine
+utils.c		- C source code for some utility functions (allocation...)
+work.c		- C source code for the relaxation routine
+
+######################################################################
+# What to do:                                                        #
+######################################################################
+
+enjoy the code :-)
