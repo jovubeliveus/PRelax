@@ -23,16 +23,6 @@ ticktock.o \
 utils.o \
 work.o
 
-MPIOBJECTS = \
-driver.o \
-init.o \
-matlab_out.o \
-print_result.o \
-resid.o \
-utils.o \
-work.o
-
-
 # default make
 
 all::

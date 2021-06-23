@@ -1,14 +1,14 @@
 # sample makefile for the C PPTemplate
 # j. behrens 3/99
 
-CC = cc
-CCFLAGS = -O3 -DGETRUS -DLINUX
+CC = gcc
+CCFLAGS = -O3 -DGETRUS -DLINUX -fopenmp
 # CCFLAGS = -O3
 # CCFLAGS = -g -DDEBUG
 SRCSER= ../src_serial/
-SRCMPI= ../src_mpi/
+SRCDAT= ../src_datapar/
 LIBS= 
-MPILIBS= -lmpi
+DATLIBS= -lgomp -lm
 
 OBJECTS = \
 driver.o \
@@ -28,11 +28,20 @@ all::
 	@make main
 	@make clear
 
+datapar::
+	@make copydatapar
+	@make maindatapar
+	@make clear
+
 # copy source files
 
 copy::
 	@cp ${SRCSER}*.c .
 	@cp ${SRCSER}*.h .
+
+copydatapar::
+	@cp ${SRCDAT}*.c .
+	@cp ${SRCDAT}*.h .
 
 # make object files
 
@@ -44,8 +53,11 @@ copy::
 main: ${OBJECTS}
 	${CC} ${CCFLAGS} -o $@ ${OBJECTS} ${LIBS}
 
+maindatapar: ${OBJECTS}
+	${CC} ${CCFLAGS} -o $@ ${OBJECTS} ${LIBS} ${DATLIBS}
+
 clear::
 	@rm *.o
 
 tidy::
-	@rm -f *.dat *.c *.h core *.m main
+	@rm -f *.dat *.c *.h core *.m main maindatapar
